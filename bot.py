@@ -29,18 +29,18 @@ email_or_userid = config.get('QOBUZ', 'email_or_userid')
 password_or_token = config.get('QOBUZ', 'password_or_token')
 arl = config.get('DEEZER', 'ARL')
 
-clients = []
+client = []
 
-clients.append(streamrip.clients.QobuzClient())
-clients[0].login(email_or_userid=email_or_userid, password_or_token=password_or_token, use_auth_token=True)
+client.append(streamrip.client.QobuzClient())
+client[0].login(email_or_userid=email_or_userid, password_or_token=password_or_token, use_auth_token=True)
 
-clients.append(streamrip.clients.DeezerClient())
-clients[1].login(arl=arl)
+client.append(streamrip.client.DeezerClient())
+client[1].login(arl=arl)
 
-clients_names = ['Qobuz', 'Deezer']
+client_names = ['Qobuz', 'Deezer']
 
 def load_album(album_id, client_id):
-    client = clients[client_id]
+    client = client[client_id]
     my_album = streamrip.media.Album(client=client, id=album_id)
     my_album.load_meta()
     return my_album
@@ -101,7 +101,7 @@ async def downloading(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
 def inline_query_results(update, query):
     client_id = get_client_id(update)
-    client = clients[client_id]
+    client = client[client_id]
     results = []
     if client_id:
 
